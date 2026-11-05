@@ -1,1 +1,1 @@
-SGR-Sistema de Gestión de Restaurante
+# SGR-Sistema de Gestión de Restaurante
