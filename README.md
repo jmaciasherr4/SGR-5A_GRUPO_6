@@ -1,1 +1,1 @@
-# 5A-Sistema-de-Gestion-de-Restaurante
+SGR-Sistema de Gestión de Restaurante
