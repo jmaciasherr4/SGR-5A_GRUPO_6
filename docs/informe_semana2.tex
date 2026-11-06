@@ -1,0 +1,318 @@
+% !TeX program = pdflatex
+% Plantilla institucional editable — UTEQ 
+% Compatible con Overleaf usando pdfLaTeX (compilador predeterminado).
+\documentclass[12pt,a4paper,oneside]{article}
+\usepackage[T1]{fontenc}
+\usepackage[utf8]{inputenc}
+\usepackage{newtxtext,newtxmath}
+% NewTX es una fuente tipo Times compatible con pdfLaTeX y Overleaf.
+% Para la fuente exacta Times New Roman sería necesario usar XeLaTeX.
+\usepackage[spanish,es-nodecimaldot]{babel}
+\usepackage[a4paper,top=2.25cm,bottom=2.2cm,left=2.4cm,right=2.2cm,headheight=28pt]{geometry}
+\usepackage{microtype}
+\usepackage{graphicx}
+\usepackage{float}
+\usepackage{booktabs,tabularx,array,longtable}
+\usepackage{enumitem}
+\usepackage{xcolor}
+\usepackage{tikz}
+\usetikzlibrary{calc,positioning}
+\usepackage[most]{tcolorbox}
+\usepackage{listings}
+\usepackage{fancyhdr}
+\usepackage{titlesec}
+\usepackage{titletoc}
+\usepackage{caption}
+\usepackage{subcaption}
+\usepackage{hyperref}
+\usepackage{setspace}
+\setstretch{1.25}
+\setlength{\parindent}{0pt}
+\setlength{\parskip}{7pt}
+\definecolor{azul}{HTML}{122A46}
+\definecolor{azulmedio}{HTML}{254B71}
+\definecolor{turquesa}{HTML}{008D95}
+\definecolor{dorado}{HTML}{E2B45E}
+\definecolor{tint}{HTML}{F3F7FA}
+\definecolor{gris}{HTML}{566579}
+\definecolor{borde}{HTML}{D8E2EB}
+\definecolor{codigo}{HTML}{F7F9FC}
+\definecolor{verdeorcid}{HTML}{A6CE39}
+% =================== DATOS EDITABLES ===================
+\newcommand{\universidad}{UNIVERSIDAD TÉCNICA ESTATAL DE QUEVEDO}
+\newcommand{\facultad}{FACULTAD DE CIENCIAS DE LA COMPUTACIÓN}
+\newcommand{\carrera}{CARRERA DE INGENIERÍA DE SOFTWARE}
+\newcommand{\materia}{Administración de Base de Datos}
+\newcommand{\tema}{Especificación de requisitos del sistema de gestión de un restaurante}
+\newcommand{\estudiante}{Alcivar Velez Anderson Adonis; Arteaga Alava Danela Dayana; Macias Herrera Josthyn Esteban; Rizzo Velez Edson Nagib}
+\newcommand{\docente}{CORDERO BAZURTO JOSE STEVEN}
+\newcommand{\orcidestudiante}{0000-0000-0000-0000} % Reemplace con su ORCID real
+\newcommand{\curso}{Quinto semestre — Paralelo A}
+\newcommand{\fechaentrega}{08 de noviembre de 2026}
+\newcommand{\lugar}{Quevedo -- Ecuador}
+\newcommand{\anio}{2026}
+% Colocar el escudo en logos/logo-uteq.png (carpeta logos junto al .tex).
+% Si no existe, se muestra un monograma decorativo.
+\newcommand{\logoinstitucional}{%
+  \IfFileExists{logos/logo-uteq.png}{\includegraphics[height=3.1cm,keepaspectratio]{logos/logo-uteq.png}}{%
+    \begin{tikzpicture}\draw[turquesa,line width=1.5pt] (0,0) circle (1.12);
+    \node[font=\bfseries\Large,text=azul] at (0,0) {UTEQ};\end{tikzpicture}}}
+\newcommand{\orcidde}[1]{\href{https://orcid.org/#1}{\tikz[baseline=-0.15em]{\node[circle,fill=verdeorcid,inner sep=1.8pt,text=white,font=\sffamily\bfseries\scriptsize]{iD};}\enspace\textcolor{black}{\small #1}}}
+\newcommand{\orcidperfil}{\href{https://orcid.org/\orcidestudiante}{\tikz[baseline=-0.15em]{\node[circle,fill=verdeorcid,inner sep=1.8pt,text=white,font=\sffamily\bfseries\scriptsize]{iD};}\enspace\textcolor{black}{\orcidestudiante}}}
+% Numeraciones con punto final: 1. Introducción / 2.1. Objetivo general
+\renewcommand{\thesection}{\arabic{section}.}
+\renewcommand{\thesubsection}{\arabic{section}.\arabic{subsection}.}
+\renewcommand{\thesubsubsection}{\arabic{section}.\arabic{subsection}.\arabic{subsubsection}.}
+\hypersetup{unicode=true,colorlinks=true,linkcolor=black,urlcolor=black,citecolor=black,pdftitle={\tema},pdfauthor={\estudiante}}
+\addto\captionsspanish{\renewcommand{\contentsname}{Contenido}\renewcommand{\listfigurename}{Índice de figuras}\renewcommand{\listtablename}{Índice de tablas}}
+\titleformat{\section}{\Large\bfseries\color{black}}{\thesection}{0.8em}{}
+\titleformat{\subsection}{\large\bfseries\color{black}}{\thesubsection}{0.75em}{}
+\titleformat{\subsubsection}{\normalsize\bfseries\color{black}}{\thesubsubsection}{0.7em}{}
+\titlespacing*{\section}{0pt}{19pt}{10pt}
+\titlespacing*{\subsection}{0pt}{13pt}{5pt}
+\titlecontents{section}[0em]{\vspace{4pt}\bfseries\color{black}}{\contentslabel{2.2em}}{}{\titlerule*[0.6pc]{.}\contentspage}
+\captionsetup{font=small,labelfont={bf,color=black},labelsep=period}
+\pagestyle{fancy}\fancyhf{}
+\fancyhead[L]{\small\textbf{UTEQ}\enspace|\enspace Ingeniería de Software}
+\fancyhead[R]{\small Informe académico}
+\renewcommand{\headrulewidth}{0.6pt}
+\renewcommand{\headrule}{\hbox to\headwidth{\color{borde}\leaders\hrule height \headrulewidth\hfill}}
+\fancyfoot[C]{\small\thepage}
+\renewcommand{\footrulewidth}{0pt}
+\newtcolorbox{destacado}[1][]{enhanced,breakable,colback=tint,colframe=borde,boxrule=.6pt,arc=2mm,
+  borderline west={3pt}{0pt}{turquesa},left=13pt,right=11pt,top=9pt,bottom=9pt,#1}
+\newtcolorbox{resultado}[1][]{enhanced,breakable,colback=white,colframe=turquesa!55,boxrule=.75pt,arc=2mm,
+ title={\bfseries Resultado o hallazgo},coltitle=black,colbacktitle=tint,#1}
+\lstdefinestyle{estiloUTEQ}{backgroundcolor=\color{codigo},basicstyle=\ttfamily\footnotesize,
+  keywordstyle=\color{black}\bfseries,commentstyle=\color{black}\itshape,
+  stringstyle=\color{black},numbers=left,numberstyle=\tiny\color{black},
+  numbersep=10pt,stepnumber=1,frame=single,rulecolor=\color{borde},framesep=8pt,
+  breaklines=true,breakatwhitespace=false,showstringspaces=false,tabsize=2,
+  keepspaces=true,columns=fullflexible,captionpos=b,xleftmargin=7pt,xrightmargin=3pt}
+\lstset{style=estiloUTEQ}
+\renewcommand{\lstlistingname}{Código}
+\renewcommand{\lstlistlistingname}{Índice de códigos}
+% Recuadro para una fotografía aún no disponible. Sustituir por \includegraphics.
+\newcommand{\imagenplaceholder}[1]{\begin{tikzpicture}
+ \node[draw=borde,fill=tint,rounded corners=3pt,minimum width=.89\linewidth,
+ minimum height=5.4cm,align=center,text=black,font=] {\Large\bfseries Evidencia fotográfica\\[6pt]\normalsize #1\\[7pt]\small Reemplazar con \texttt{\textbackslash includegraphics}};
+ \end{tikzpicture}}
+\newcolumntype{P}[1]{>{\raggedright\arraybackslash}p{#1}}
+\begin{document}
+% ========================= PORTADA =========================
+\begin{titlepage}
+\begin{tikzpicture}[remember picture,overlay]
+  \fill[azul] (current page.north west) rectangle ([yshift=-1.05cm]current page.north east);
+  \fill[turquesa] ([yshift=-1.05cm]current page.north west) rectangle ([yshift=-1.12cm]current page.north east);
+  \fill[azul] ([yshift=1.05cm]current page.south west) rectangle (current page.south east);
+  \fill[dorado] ([xshift=1.8cm,yshift=1.05cm]current page.south west) rectangle
+  ([xshift=5.7cm,yshift=1.12cm]current page.south west);
+\end{tikzpicture}
+\vspace*{0.35cm}
+\begin{center}
+\logoinstitucional\\[0.55cm]
+{\normalsize\bfseries\color{black}\universidad}\\[0.16cm]
+{\small\color{black}\facultad}\\[0.12cm]
+{\small\bfseries\color{black}\carrera}
+\end{center}
+\vspace{0.6cm}
+\begin{center}
+{\small\bfseries\color{black}\MakeUppercase{INFORME ACADÉMICO}}\\[0.48cm]
+{\fontsize{23}{27}\selectfont\bfseries\color{black}\tema}\\[0.65cm]
+{\color{dorado}\rule{3.7cm}{2pt}}\\[0.35cm]
+{\large\color{black}\materia}
+\end{center}
+\vfill
+\begin{tcolorbox}[colback=tint,colframe=borde,arc=2mm,boxrule=.7pt,left=15pt,right=15pt,top=12pt,bottom=12pt]
+% Ambas columnas centradas verticalmente para alinear etiqueta y valor.
+\renewcommand{\arraystretch}{1.3}\small
+\begin{tabular}{@{}>{\bfseries\raggedright\arraybackslash}m{2.2cm}>{\raggedright\arraybackslash}m{7.1cm}>{\raggedright\arraybackslash}m{4.6cm}@{}}
+Estudiantes: & ALCIVAR VELEZ ANDERSON ADONIS & \orcidde{0009-0005-1039-073X}\\
+ & ARTEAGA ALAVA DANELA DAYANA & \orcidde{0009-0007-4143-9123}\\
+ & MACIAS HERRERA JOSTHYN ESTEBAN & \orcidde{0009-0008-2301-4815}\\
+ & RIZZO VELEZ EDSON NAGIB & \orcidde{0009-0002-8891-2233}\\
+\addlinespace[4pt]
+Docente: & \multicolumn{2}{@{}l@{}}{\docente}\\
+Curso: & \multicolumn{2}{@{}l@{}}{\curso}\\
+Entrega: & \multicolumn{2}{@{}l@{}}{\fechaentrega}
+\end{tabular}
+\end{tcolorbox}
+\vspace{0.3cm}
+\begin{center}{\bfseries\color{black}\lugar\quad |\quad\anio}\end{center}
+\vspace{0.1cm}
+\end{titlepage}
+% ========================= PRELIMINARES =========================
+\pagenumbering{roman}
+\setcounter{page}{1}
+\tableofcontents
+\clearpage
+% Activar estos índices si el documento contiene varias figuras o tablas:
+% \listoffigures\clearpage
+% \listoftables\clearpage
+% \lstlistoflistings\clearpage
+\pagenumbering{arabic}
+% ========================= CUERPO DEL INFORME =========================
+\section{Introducción}
+Este informe presenta la especificación inicial de requisitos del proyecto integrador: un sistema de gestión para restaurantes pequeños y medianos, soportado en una base de datos PostgreSQL. Los restaurantes de este tamaño suelen llevar sus operaciones en hojas de cálculo sueltas o en la memoria del personal, lo que provoca errores en los pedidos, pérdida de información y dificultad para controlar los ingresos. Definir requisitos claros y verificables antes de programar evita funcionalidades improvisadas y permite evaluar el sistema en las siguientes etapas~\cite{ieee29148}.
+
+El documento describe el contexto y el alcance del proyecto, identifica los actores y sus responsabilidades, especifica los requisitos funcionales y no funcionales, y los prioriza en una planificación preliminar por módulos.
+
+\section{Objetivos}
+\subsection{Objetivo general}
+Especificar los requisitos funcionales y no funcionales del sistema de gestión del restaurante, con criterios de aceptación verificables, para orientar su desarrollo sobre PostgreSQL durante el semestre.
+\subsection{Objetivos específicos}
+\begin{itemize}[leftmargin=1.8em,itemsep=3pt]
+\item Identificar los actores del sistema, sus responsabilidades y las funcionalidades que requieren.
+\item Redactar requisitos funcionales y no funcionales con identificador, prioridad y condición de verificación.
+\item Priorizar los requisitos y definir un orden lógico de desarrollo por módulos.
+\end{itemize}
+
+\section{Desarrollo}
+\subsection{Contexto, objetivo y alcance del proyecto}
+
+\textbf{Problema.} Los restaurantes pequeños y medianos suelen gestionar sus operaciones en hojas de cálculo sueltas o en la memoria del personal. Esta información dispersa ocasiona errores en los pedidos, pérdida de información, desorganización en la atención al cliente y dificultades para controlar los ingresos del negocio. La necesidad central es centralizar la información operativa en una base de datos relacional que conecte las reservas, los pedidos, el inventario y la facturación, y que permita consultar el estado del negocio de forma confiable.
+
+\textbf{Objetivo del proyecto.} Desarrollar una aplicación de gestión para un restaurante, soportada en una base de datos PostgreSQL, que integre el control de usuarios y roles, clientes, reservas, mesas, menú, pedidos, inventario, facturación y caja, para reducir errores operativos y disponer de información confiable para la toma de decisiones.
+
+\textbf{Alcance.} La aplicación comprende nueve módulos: seguridad y accesos, personas y clientes, reservas, mesas, menú, pedidos, inventario, facturación y control de caja (sección~\ref{sec:actores}). Para que el desarrollo sea viable en el semestre, quedan fuera de la primera versión las recetas con cálculo de costos, los proveedores y órdenes de compra, los turnos y asistencia de empleados y los reportes estadísticos avanzados; podrán incorporarse en versiones futuras.
+
+\textbf{Gestor de base de datos.} El sistema utilizará PostgreSQL. La necesidad de que los cambios (por ejemplo, el estado de un pedido) se reflejen rápidamente entre los usuarios se expresa como un requisito no funcional verificable (RNF-07).
+
+\subsection{Identificación de actores y funcionalidades}
+\label{sec:actores}
+
+\subsubsection{Actores del sistema}
+
+El sistema será utilizado por cuatro tipos de usuarios internos, cada uno con responsabilidades y permisos definidos según su rol.
+
+{\small\renewcommand{\arraystretch}{1.2}\setstretch{1.05}
+\begin{longtable}{P{2.2cm}P{4.6cm}P{7.2cm}}
+\toprule
+\textbf{Actor} & \textbf{Responsabilidades} & \textbf{Principales operaciones} \\ \midrule
+\endhead
+Administrador & Configurar y supervisar el funcionamiento general del sistema. & Gestionar usuarios y roles, administrar el menú y los precios, controlar el inventario, consultar facturas y el estado de la caja. \\ \midrule
+Mesero & Atender a los clientes en el salón y registrar sus pedidos. & Consultar el menú, registrar reservas, consultar y cambiar el estado de las mesas, crear y modificar pedidos. \\ \midrule
+Cajero & Realizar el cobro de los pedidos y controlar el dinero recibido durante la jornada. & Generar facturas, registrar la forma de pago, abrir y cerrar la caja diaria. \\ \midrule
+Cocinero & Preparar los pedidos recibidos y verificar la disponibilidad de ingredientes. & Consultar los pedidos pendientes, actualizar su estado (en preparación, listo) y consultar el inventario. \\ \bottomrule
+\end{longtable}}
+
+\subsubsection{Funcionalidades del sistema}
+
+Las funcionalidades se organizan en nueve módulos. Cada una corresponde a una operación real que puede implementarse y comprobarse durante el desarrollo del proyecto.
+
+{\small\renewcommand{\arraystretch}{1.2}\setstretch{1.05}
+\begin{longtable}{P{3.0cm}P{7.6cm}P{3.4cm}}
+\toprule
+\textbf{Módulo} & \textbf{Funcionalidades} & \textbf{Actores} \\ \midrule
+\endhead
+1. Seguridad y accesos & Iniciar y cerrar sesión. Registrar, editar, consultar y desactivar usuarios. Gestionar roles y restringir las opciones del sistema según el rol asignado. & Administrador \\ \midrule
+2. Personas y clientes & Registrar, consultar y editar clientes con sus datos personales y de contacto. & Administrador, Mesero \\ \midrule
+3. Reservas & Registrar una reserva (fecha, hora, número de personas y cliente). Consultar las reservas del día. Modificar o cancelar una reserva. Asignarle una mesa. & Mesero, Administrador \\ \midrule
+4. Mesas & Registrar y editar mesas (número, capacidad y zona). Consultar y cambiar su estado: libre, ocupada o reservada. & Mesero, Administrador \\ \midrule
+5. Menú & Registrar, editar y desactivar platos con su categoría y precio. Consultar el menú disponible. & Administrador (gestión); Mesero y Cocinero (consulta) \\ \midrule
+6. Pedidos & Crear un pedido por mesa o para llevar. Agregar, modificar o quitar platos. Cancelar un pedido. Cambiar su estado: pendiente, en preparación, listo o entregado. & Mesero, Cocinero \\ \midrule
+7. Inventario & Registrar ingredientes con su unidad de medida y stock mínimo. Registrar entradas y salidas de stock. Consultar existencias y visualizar alertas de stock bajo. & Administrador; Cocinero (consulta) \\ \midrule
+8. Facturación & Generar la factura de un pedido con el detalle y el total. Registrar la forma de pago (efectivo, tarjeta o transferencia). Consultar facturas emitidas. & Cajero, Administrador \\ \midrule
+9. Control de caja & Abrir la caja con un monto inicial. Registrar ingresos y egresos. Cerrar la caja y realizar el cuadre diario. Consultar el historial de cierres. & Cajero, Administrador \\ \bottomrule
+\end{longtable}}
+
+\clearpage
+\subsection{Especificación de requisitos funcionales}
+
+{\small\renewcommand{\arraystretch}{1.2}\setstretch{1.05}
+\begin{longtable}{P{1.3cm}P{4.6cm}P{1.5cm}P{6.6cm}}
+\toprule
+\textbf{ID} & \textbf{Requisito funcional} & \textbf{Prioridad} & \textbf{Criterio de aceptación} \\ \midrule
+\endhead
+\multicolumn{4}{l}{\textit{Módulo 1: Seguridad y accesos}} \\ \midrule
+RF-01 & El sistema permitirá iniciar y cerrar sesión con usuario y contraseña. & Alta & Con credenciales válidas se accede al panel correspondiente al rol; con credenciales inválidas se muestra un mensaje de error y no se concede acceso. Al cerrar sesión no se puede volver a las pantallas internas. \\ \midrule
+RF-02 & El sistema permitirá al administrador registrar, editar y desactivar usuarios asignándoles un rol. & Alta & El usuario creado puede iniciar sesión con el rol asignado; un usuario desactivado no puede iniciar sesión pero su historial se conserva. \\ \midrule
+RF-03 & El sistema restringirá el acceso a los módulos según el rol del usuario. & Alta & Al intentar abrir un módulo no permitido (por ejemplo, un mesero accediendo a usuarios o caja) el sistema deniega el acceso; cada rol visualiza únicamente las opciones que le corresponden. \\ \midrule
+\multicolumn{4}{l}{\textit{Módulo 2: Personas y clientes}} \\ \midrule
+RF-04 & El sistema permitirá registrar, consultar y editar clientes (nombres, documento de identidad y teléfono). & Alta & Al ingresar datos válidos el cliente se almacena y puede consultarse; un documento de identidad ya registrado es rechazado con un mensaje; los cambios editados se muestran en consultas posteriores. \\ \midrule
+\multicolumn{4}{l}{\textit{Módulo 3: Reservas}} \\ \midrule
+RF-05 & El sistema permitirá registrar una reserva indicando cliente, fecha, hora, número de personas y mesa. & Alta & La reserva se guarda y aparece en las reservas del día; el sistema no permite reservar una mesa ya reservada en el mismo horario ni una mesa con capacidad menor al número de personas; la mesa pasa a estado ``reservada''. \\ \midrule
+RF-06 & El sistema permitirá consultar las reservas del día y modificar o cancelar una reserva. & Media & El listado muestra solo las reservas de la fecha elegida; al cancelar una reserva su mesa vuelve a ``libre'' y la reserva queda marcada como cancelada sin borrarse. \\ \midrule
+\multicolumn{4}{l}{\textit{Módulo 4: Mesas}} \\ \midrule
+RF-07 & El sistema permitirá registrar y editar mesas (número, capacidad y zona) y cambiar su estado entre libre, ocupada y reservada. & Alta & No pueden existir dos mesas con el mismo número; el estado seleccionado se guarda y se refleja de inmediato en la consulta de mesas. \\ \midrule
+\multicolumn{4}{l}{\textit{Módulo 5: Menú}} \\ \midrule
+RF-08 & El sistema permitirá registrar, editar y desactivar platos con categoría, descripción y precio. & Alta & El precio debe ser mayor que cero; los cambios se ven en consultas posteriores; un plato desactivado ya no aparece al crear pedidos pero se conserva en los pedidos anteriores. \\ \midrule
+\multicolumn{4}{l}{\textit{Módulo 6: Pedidos}} \\ \midrule
+RF-09 & El sistema permitirá crear un pedido por mesa o para llevar, agregando platos del menú con su cantidad. & Alta & El pedido guarda los platos, cantidades y precios; el total es igual a la suma de (cantidad $\times$ precio) de cada plato; si es por mesa, esta pasa a ``ocupada''. \\ \midrule
+RF-10 & El sistema permitirá actualizar el estado de un pedido (pendiente, en preparación, listo, entregado). & Alta & El cocinero visualiza los pedidos pendientes y puede cambiar su estado; el sistema solo admite las transiciones en ese orden y registra la hora de cada cambio. \\ \midrule
+RF-11 & El sistema permitirá modificar platos de un pedido y cancelarlo mientras esté pendiente. & Media & Un pedido pendiente puede editarse o cancelarse y el total se recalcula; un pedido en preparación o posterior no puede modificarse y el sistema muestra el motivo. \\ \midrule
+\multicolumn{4}{l}{\textit{Módulo 7: Inventario}} \\ \midrule
+RF-12 & El sistema permitirá registrar ingredientes (unidad de medida y stock mínimo) y registrar entradas y salidas de stock. & Media & Cada movimiento actualiza la existencia del ingrediente y queda registrado con fecha y usuario; no se permite una salida mayor a la existencia. \\ \midrule
+RF-13 & El sistema mostrará alertas de los ingredientes con existencia igual o menor al stock mínimo. & Media & Al reducir la existencia de un ingrediente hasta su stock mínimo, este aparece en el listado de alertas; al reponerlo, desaparece. \\ \midrule
+\multicolumn{4}{l}{\textit{Módulo 8: Facturación}} \\ \midrule
+RF-14 & El sistema permitirá generar la factura de un pedido con su detalle, total y forma de pago (efectivo, tarjeta o transferencia). & Alta & Un pedido entregado genera una única factura cuyo total coincide con el del pedido; no se puede facturar dos veces el mismo pedido; al facturar, la mesa pasa a ``libre''. \\ \midrule
+RF-15 & El sistema permitirá consultar las facturas emitidas por rango de fechas. & Media & Al elegir un rango de fechas se listan solo las facturas emitidas en ese período, con su total y forma de pago. \\ \midrule
+\multicolumn{4}{l}{\textit{Módulo 9: Control de caja}} \\ \midrule
+RF-16 & El sistema permitirá abrir la caja con un monto inicial, registrar ingresos y egresos y cerrarla realizando el cuadre diario. & Media & Solo puede haber una caja abierta a la vez; al cerrar, el sistema calcula el monto esperado (inicial + ingresos $-$ egresos) y muestra la diferencia con el monto contado. \\ \midrule
+RF-17 & El sistema permitirá consultar el historial de cierres de caja. & Baja & El historial lista cada cierre con fecha, responsable, monto esperado, monto contado y diferencia. \\ \bottomrule
+\end{longtable}}
+
+\subsection{Especificación de requisitos no funcionales}
+
+{\small\renewcommand{\arraystretch}{1.2}\setstretch{1.05}
+\begin{longtable}{P{1.5cm}P{2.2cm}P{4.3cm}P{6.0cm}}
+\toprule
+\textbf{ID} & \textbf{Categoría} & \textbf{Requisito no funcional} & \textbf{Condición de verificación} \\ \midrule
+\endhead
+RNF-01 & Seguridad & Las contraseñas se almacenarán cifradas con un algoritmo de hash (por ejemplo, bcrypt) y nunca en texto plano. & Al consultar la tabla de usuarios en PostgreSQL ninguna contraseña es legible; el hash almacenado difiere para dos usuarios con la misma contraseña. \\ \midrule
+RNF-02 & Seguridad & Las funciones administrativas (usuarios, menú, inventario y consulta de caja) solo estarán disponibles para el rol Administrador. & Con una cuenta de mesero, cajero y cocinero se intenta acceder a cada función administrativa y en todos los casos el sistema deniega el acceso. \\ \midrule
+RNF-03 & Rendimiento & Las consultas de uso frecuente (mesas, menú y pedidos activos) responderán en un tiempo máximo de 2 segundos. & Con una base de prueba de al menos 10\,000 pedidos, cada consulta se ejecuta en $\leq$ 2 s, medido con \texttt{EXPLAIN ANALYZE} o cronómetro, en tres repeticiones. \\ \midrule
+RNF-04 & Integridad de datos & Los datos se protegerán con claves primarias, claves foráneas y restricciones en PostgreSQL, y el registro de una factura se ejecutará en una transacción. & Al intentar insertar un pedido con una mesa inexistente o un precio negativo la base de datos lo rechaza; si falla la creación de una factura no queda ningún registro parcial. \\ \midrule
+RNF-05 & Usabilidad & Un mesero capacitado podrá registrar un pedido de tres platos en máximo 2 minutos sin ayuda externa. & Se cronometra a tres usuarios de prueba registrando un pedido de tres platos; los tres lo completan en $\leq$ 2 minutos. \\ \midrule
+RNF-06 & Disponibilidad y respaldo & Se realizará un respaldo diario de la base de datos mediante \texttt{pg\_dump}, con posibilidad de restauración. & Se restaura el respaldo en una base vacía y el número de registros de las tablas principales coincide con la base original. \\ \midrule
+RNF-07 & Actualización de la información & Los cambios de estado de pedidos y mesas se reflejarán en las demás sesiones abiertas en un máximo de 3 segundos. & Con dos sesiones abiertas, al cambiar el estado de un pedido en una, la otra lo muestra en $\leq$ 3 s sin recargar manualmente. \\ \midrule
+RNF-08 & Mantenimiento & El esquema completo de la base de datos estará en un script SQL versionado en el repositorio, y el código estará documentado en el README. & Al ejecutar el script en una base PostgreSQL vacía se crean todas las tablas sin errores; un integrante ajeno al módulo puede levantar el proyecto siguiendo solo el README. \\ \bottomrule
+\end{longtable}}
+
+\subsection{Priorización y planificación preliminar}
+
+\subsubsection{Priorización de los requisitos}
+
+{\small\renewcommand{\arraystretch}{1.2}\setstretch{1.05}
+\begin{longtable}{P{2.2cm}P{5.0cm}P{6.8cm}}
+\toprule
+\textbf{Prioridad} & \textbf{Requisitos} & \textbf{Criterio} \\ \midrule
+\endhead
+Alta (primera versión) & RF-01, RF-02, RF-03, RF-04, RF-05, RF-07, RF-08, RF-09, RF-10, RF-14 & Permiten el ciclo básico del restaurante: ingresar al sistema, reservar, tomar el pedido, prepararlo y cobrarlo. \\ \midrule
+Media (se incorpora después) & RF-06, RF-11, RF-12, RF-13, RF-15, RF-16 & Mejoran el control y la corrección de errores, pero el restaurante puede operar sin ellos en una primera versión. El inventario es de prioridad media porque no está ligado a recetas y no bloquea la atención. \\ \midrule
+Baja (si el tiempo lo permite) & RF-17 & Consulta histórica que no afecta la operación diaria. \\ \bottomrule
+\end{longtable}}
+
+\subsubsection{Planificación preliminar por módulos}
+
+El orden propuesto va desde los datos base hacia las operaciones que dependen de ellos. No se fijan fechas exactas.
+
+{\small\renewcommand{\arraystretch}{1.2}\setstretch{1.05}
+\begin{longtable}{P{1.4cm}P{3.3cm}P{3.0cm}P{2.6cm}P{3.7cm}}
+\toprule
+\textbf{Fase} & \textbf{Módulos} & \textbf{Requisitos} & \textbf{Depende de} & \textbf{Resultado esperado} \\ \midrule
+\endhead
+1 & Seguridad y accesos; Mesas; Menú; Personas y clientes & RF-01 a RF-04, RF-07, RF-08 & Base de datos creada & Acceso por roles y datos maestros registrados. \\ \midrule
+2 & Reservas; Pedidos & RF-05, RF-09, RF-10 & Fase 1 (clientes, mesas, menú) & Un cliente reserva, el mesero toma el pedido y la cocina lo prepara. \\ \midrule
+3 & Facturación & RF-14 & Fase 2 (pedidos) & Primera versión funcional completa: pedido cobrado y facturado. \\ \midrule
+4 & Reservas y pedidos (ajustes); Inventario; Facturación (consulta); Control de caja & RF-06, RF-11, RF-12, RF-13, RF-15, RF-16 & Fases 2 y 3 & Control de errores, existencias y cuadre de caja. \\ \midrule
+5 & Control de caja (historial) & RF-17 & Fase 4 (caja) & Historial de cierres consultable. \\ \bottomrule
+\end{longtable}}
+
+Los requisitos no funcionales se verificarán de forma transversal: RNF-01, RNF-02 y RNF-04 desde la fase 1; RNF-03, RNF-05 y RNF-07 al terminar la fase 3; RNF-06 y RNF-08 durante todo el desarrollo y en la entrega final.
+
+\section{Conclusiones}
+\begin{enumerate}[leftmargin=1.8em]
+\item Se especificaron 17 requisitos funcionales y 8 no funcionales, todos con una condición de aceptación que puede comprobarse durante el desarrollo.
+\item La priorización identifica diez requisitos de prioridad alta que forman la primera versión funcional: acceso por roles, reservas, pedidos y facturación.
+\item Se definió un alcance viable para el semestre, con nueve módulos, que deja fuera de la primera versión las recetas, los proveedores y los turnos de empleados. Cualquier cambio posterior deberá justificarse y reflejarse en el informe maestro.
+\end{enumerate}
+
+\clearpage
+\renewcommand{\refname}{Referencias bibliográficas}
+\addcontentsline{toc}{section}{Referencias bibliográficas}
+\begin{thebibliography}{99}
+\bibitem{ieee29148}
+ISO/IEC/IEEE, \textit{Systems and software engineering — Life cycle processes — Requirements engineering}, ISO/IEC/IEEE 29148:2018, 2018.
+\end{thebibliography}
+\end{document}
