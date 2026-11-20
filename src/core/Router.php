@@ -3,6 +3,8 @@ declare(strict_types=1);
 
 namespace App\Core;
 
+use App\Core\Csrf;
+
 /**
  * Enrutador básico sin framework
  * Soporta registro de rutas GET/POST y ejecución de controladores o funciones anónimas.
@@ -40,6 +42,11 @@ class Router
         }
 
         $method = strtoupper($method);
+
+        // Verificación obligatoria en backend de protección CSRF para peticiones POST
+        if ($method === 'POST') {
+            Csrf::verifyPostRequest();
+        }
 
         if (isset($this->routes[$method][$normalizedPath])) {
             $handler = $this->routes[$method][$normalizedPath];

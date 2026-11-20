@@ -1,0 +1,31 @@
+/* ==========================================================================
+   Estilos base del Sistema de Gestión de Restaurante
+   Cumple con accesibilidad: áreas táctiles >= 44px, sin scroll horizontal
+   ========================================================================== */
+
+html, body {
+    max-width: 100%;
+    overflow-x: hidden;
+    font-family: system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+}
+
+/* Botones y campos táctiles con altura mínima de 44px para tabletas y móviles */
+.btn,
+.form-control,
+.form-select {
+    min-height: 44px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+}
+
+/* Ajuste de tablas responsivas para evitar cualquier desborde */
+.table-responsive {
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+}
+
+/* Tipografía de importes y totales */
+.font-monospace {
+    font-family: SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
+}
