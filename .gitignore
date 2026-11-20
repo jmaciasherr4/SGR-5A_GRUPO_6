@@ -1,0 +1,20 @@
+# Variables de entorno
+.env
+
+# Logs
+storage/logs/*.log
+!storage/logs/.gitkeep
+
+# IDEs y editores
+.vscode/
+.idea/
+*.sublime-project
+*.sublime-workspace
+
+# Sistema operativo
+Thumbs.db
+Desktop.ini
+.DS_Store
+
+# Datos temporales de pruebas
+tests/temp/
