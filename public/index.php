@@ -5,6 +5,9 @@ require_once dirname(__DIR__) . '/src/bootstrap.php';
 
 use App\Controllers\AuthController;
 use App\Controllers\UsuarioController;
+use App\Controllers\ClienteController;
+use App\Controllers\MesaController;
+use App\Controllers\MenuController;
 use App\Core\Auth;
 use App\Core\Database;
 use App\Core\Env;
@@ -45,37 +48,39 @@ $router->post('/usuarios/estado', [UsuarioController::class, 'cambiarEstado']);
 $router->post('/usuarios/eliminar', [UsuarioController::class, 'eliminar']);
 
 // ----------------------------------------------------------------------------
-// RUTAS CON PROTECCIÓN DE ROL PARA FASES SIGUIENTES (RF-03)
+// MÓDULO DE CLIENTES (RF-04) - Administrador y Mesero
 // ----------------------------------------------------------------------------
-$router->get('/clientes', function () {
-    Auth::requireRole(['administrador', 'mesero']);
-    View::render('placeholders/modulo', [
-        'titulo'       => 'Gestión de Clientes',
-        'moduloNombre' => 'Clientes y Personas',
-        'fase'         => 'Fase 2',
-        'descripcion'  => 'El módulo de clientes será implementado en la Fase 2 (RF-04: Cédula de 10 dígitos, CRUD y búsqueda).'
-    ]);
-});
+$router->get('/clientes', [ClienteController::class, 'index']);
+$router->get('/clientes/crear', [ClienteController::class, 'crear']);
+$router->post('/clientes/guardar', [ClienteController::class, 'guardar']);
+$router->get('/clientes/editar', [ClienteController::class, 'editar']);
+$router->post('/clientes/actualizar', [ClienteController::class, 'actualizar']);
+$router->post('/clientes/eliminar', [ClienteController::class, 'eliminar']);
 
-$router->get('/mesas', function () {
-    Auth::requireRole(['administrador', 'mesero']);
-    View::render('placeholders/modulo', [
-        'titulo'       => 'Gestión de Mesas',
-        'moduloNombre' => 'Mesas y Zonas',
-        'fase'         => 'Fase 2',
-        'descripcion'  => 'El módulo de mesas será implementado en la Fase 2 (RF-07: Número único, capacidad y cambio rápido de estado).'
-    ]);
-});
+// ----------------------------------------------------------------------------
+// MÓDULO DE MESAS (RF-07) - Administrador (CRUD) y Mesero (Ver/Estado)
+// ----------------------------------------------------------------------------
+$router->get('/mesas', [MesaController::class, 'index']);
+$router->get('/mesas/crear', [MesaController::class, 'crear']);
+$router->post('/mesas/guardar', [MesaController::class, 'guardar']);
+$router->get('/mesas/editar', [MesaController::class, 'editar']);
+$router->post('/mesas/actualizar', [MesaController::class, 'actualizar']);
+$router->post('/mesas/estado', [MesaController::class, 'cambiarEstado']);
+$router->post('/mesas/eliminar', [MesaController::class, 'eliminar']);
 
-$router->get('/menu', function () {
-    Auth::requireRole(['administrador', 'mesero', 'cocinero']);
-    View::render('placeholders/modulo', [
-        'titulo'       => 'Menú del Restaurante',
-        'moduloNombre' => 'Menú y Precios',
-        'fase'         => 'Fase 2',
-        'descripcion'  => 'El catálogo de menú y precios será implementado en la Fase 2 (RF-08: Categorías, precios > 0 y baja lógica).'
-    ]);
-});
+// ----------------------------------------------------------------------------
+// MÓDULO DE MENÚ Y PRECIOS (RF-08) - Admin (CRUD), Mesero/Cocinero (Consulta)
+// ----------------------------------------------------------------------------
+$router->get('/menu', [MenuController::class, 'index']);
+$router->get('/menu/crear', [MenuController::class, 'crearPlato']);
+$router->post('/menu/guardar', [MenuController::class, 'guardarPlato']);
+$router->get('/menu/editar', [MenuController::class, 'editarPlato']);
+$router->post('/menu/actualizar', [MenuController::class, 'actualizarPlato']);
+$router->post('/menu/estado', [MenuController::class, 'cambiarEstadoPlato']);
+$router->post('/menu/eliminar', [MenuController::class, 'eliminarPlato']);
+$router->get('/menu/categorias', [MenuController::class, 'categorias']);
+$router->post('/menu/categorias/guardar', [MenuController::class, 'guardarCategoria']);
+$router->post('/menu/categorias/eliminar', [MenuController::class, 'eliminarCategoria']);
 
 $router->get('/pedidos', function () {
     Auth::requireRole(['administrador', 'mesero', 'cajero']);
