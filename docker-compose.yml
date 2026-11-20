@@ -1,0 +1,43 @@
+services:
+  db:
+    image: postgres:16-alpine
+    container_name: restaurante_db
+    restart: unless-stopped
+    environment:
+      POSTGRES_DB: ${DB_DATABASE:-restaurante}
+      POSTGRES_USER: ${DB_USERNAME:-restaurante_user}
+      POSTGRES_PASSWORD: ${DB_PASSWORD:-restaurante_pass}
+      TZ: America/Guayaquil
+    ports:
+      - "${DB_PORT:-5434}:5432"
+    volumes:
+      - restaurante_pgdata:/var/lib/postgresql/data
+      - ./database:/docker-entrypoint-initdb.d:ro
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U ${DB_USERNAME:-restaurante_user} -d ${DB_DATABASE:-restaurante}"]
+      interval: 5s
+      timeout: 5s
+      retries: 5
+      start_period: 10s
+
+  web:
+    profiles: ["web"]
+    build:
+      context: .
+      dockerfile: Dockerfile.web
+    container_name: restaurante_web
+    restart: unless-stopped
+    ports:
+      - "8000:8000"
+    volumes:
+      - .:/var/www/html
+    environment:
+      DB_HOST: db
+      DB_PORT: 5432
+    depends_on:
+      db:
+        condition: service_healthy
+
+volumes:
+  restaurante_pgdata:
+    name: restaurante_pgdata
