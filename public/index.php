@@ -10,6 +10,7 @@ use App\Controllers\MesaController;
 use App\Controllers\MenuController;
 use App\Controllers\PedidoController;
 use App\Controllers\CocinaController;
+use App\Controllers\PrediccionController;
 use App\Core\Auth;
 use App\Core\Database;
 use App\Core\Env;
@@ -102,15 +103,10 @@ $router->get('/cocina',               [CocinaController::class, 'index']);
 $router->get('/cocina/pedidos-json',  [CocinaController::class, 'pedidosJson']);
 $router->post('/cocina/estado',       [CocinaController::class, 'avanzarEstado']);
 
-$router->get('/predicciones', function () {
-    Auth::requireRole('administrador');
-    View::render('placeholders/modulo', [
-        'titulo'       => 'Predicciones Analíticas',
-        'moduloNombre' => 'Predicciones',
-        'fase'         => 'Fase 4',
-        'descripcion'  => 'Las proyecciones analíticas serán implementadas en la Fase 4 (P1, P4, P6 con SQL parametrizado y gráficos).'
-    ]);
-});
+// ----------------------------------------------------------------------------
+// MÓDULO DE PREDICCIONES (P1, P4, P6) - Solo Administrador
+// ----------------------------------------------------------------------------
+$router->get('/predicciones', [PrediccionController::class, 'index']);
 
 // ----------------------------------------------------------------------------
 // RUTA GET /salud (Fase 0)
