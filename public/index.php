@@ -8,6 +8,8 @@ use App\Controllers\UsuarioController;
 use App\Controllers\ClienteController;
 use App\Controllers\MesaController;
 use App\Controllers\MenuController;
+use App\Controllers\PedidoController;
+use App\Controllers\CocinaController;
 use App\Core\Auth;
 use App\Core\Database;
 use App\Core\Env;
@@ -82,25 +84,23 @@ $router->get('/menu/categorias', [MenuController::class, 'categorias']);
 $router->post('/menu/categorias/guardar', [MenuController::class, 'guardarCategoria']);
 $router->post('/menu/categorias/eliminar', [MenuController::class, 'eliminarCategoria']);
 
-$router->get('/pedidos', function () {
-    Auth::requireRole(['administrador', 'mesero', 'cajero']);
-    View::render('placeholders/modulo', [
-        'titulo'       => 'Gestión de Pedidos',
-        'moduloNombre' => 'Pedidos',
-        'fase'         => 'Fase 3',
-        'descripcion'  => 'La toma y gestión de pedidos será implementada en la Fase 3 (RF-09, RF-11: Transacciones, comensales y cálculo en servidor).'
-    ]);
-});
+// ----------------------------------------------------------------------------
+// MÓDULO DE PEDIDOS (RF-09, RF-11) - Administrador y Mesero
+// ----------------------------------------------------------------------------
+$router->get('/pedidos',           [PedidoController::class, 'index']);
+$router->get('/pedidos/crear',     [PedidoController::class, 'crear']);
+$router->post('/pedidos/guardar',  [PedidoController::class, 'guardar']);
+$router->get('/pedidos/ver',       [PedidoController::class, 'ver']);
+$router->get('/pedidos/editar',    [PedidoController::class, 'editar']);
+$router->post('/pedidos/actualizar', [PedidoController::class, 'actualizar']);
+$router->post('/pedidos/cancelar', [PedidoController::class, 'cancelar']);
 
-$router->get('/cocina', function () {
-    Auth::requireRole(['administrador', 'cocinero']);
-    View::render('placeholders/modulo', [
-        'titulo'       => 'Pantalla de Cocina',
-        'moduloNombre' => 'Tablero de Cocina',
-        'fase'         => 'Fase 3',
-        'descripcion'  => 'El tablero de cocina en tiempo real será implementado en la Fase 3 (RF-10: Avance de estados sin saltos y refresco automático).'
-    ]);
-});
+// ----------------------------------------------------------------------------
+// MÓDULO DE COCINA (RF-10) - Administrador y Cocinero
+// ----------------------------------------------------------------------------
+$router->get('/cocina',               [CocinaController::class, 'index']);
+$router->get('/cocina/pedidos-json',  [CocinaController::class, 'pedidosJson']);
+$router->post('/cocina/estado',       [CocinaController::class, 'avanzarEstado']);
 
 $router->get('/predicciones', function () {
     Auth::requireRole('administrador');
