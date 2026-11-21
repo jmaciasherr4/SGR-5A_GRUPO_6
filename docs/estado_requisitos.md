@@ -16,8 +16,8 @@ Proyecto: **Sistema Web de Gestión de Restaurante**
 | **RF-09** | Creación de pedido (mesa/llevar, transacción, cálculo servidor) | Alta | **Completado (Fase 3)** | `src/controllers/PedidoController.php`, `src/models/PedidoModel.php`, `src/views/pedidos/crear.php` | CP-RF09-01 a CP-RF09-04 |
 | **RF-10** | Máquina de estados del pedido (sin saltos e historial) | Alta | **Completado (Fase 3)** | `src/controllers/CocinaController.php`, `src/views/cocina/index.php` | CP-RF10-01 a CP-RF10-05 |
 | **RF-11** | Modificar/cancelar pedido solo en estado pendiente | Media | **Completado (Fase 3)** | `src/controllers/PedidoController.php`, `src/views/pedidos/editar.php` | CP-RF11-01 a CP-RF11-03 |
-| **P1** | Predicción: Pedidos por hora (franjas horarias) | Alta | Pendiente (Fase 4) | `src/controllers/PrediccionController.php` | CP-P1 |
-| **P4** | Predicción: Platos más vendidos (unidades estimadas) | Alta | Pendiente (Fase 4) | `src/controllers/PrediccionController.php` | CP-P4 |
-| **P6** | Predicción: Ventas esperadas del día (total facturado) | Alta | Pendiente (Fase 4) | `src/controllers/PrediccionController.php` | CP-P6 |
+| **P1** | Predicción: Pedidos por hora (franjas horarias) | Alta | **Completado (Fase 4)** | `src/controllers/PrediccionController.php`, `src/models/PrediccionModel.php`, `src/views/predicciones/index.php` | CP-P1-01 a CP-P1-02 |
+| **P4** | Predicción: Platos más vendidos (unidades estimadas) | Alta | **Completado (Fase 4)** | `src/controllers/PrediccionController.php`, `src/models/PrediccionModel.php`, `src/views/predicciones/index.php` | CP-P4-01 a CP-P4-02 |
+| **P6** | Predicción: Ventas esperadas del día (total facturado) | Alta | **Completado (Fase 4)** | `src/controllers/PrediccionController.php`, `src/models/PrediccionModel.php`, `src/views/predicciones/index.php` | CP-P6-01 a CP-P6-02 |
 
 *Leyenda de estados: `Completado`, `En desarrollo`, `Pendiente`.*

@@ -52,7 +52,6 @@ class AuthController
 
     public function logout(): void
     {
-        Csrf::verifyPostRequest();
         Auth::logout();
         Flash::info('Has cerrado sesión exitosamente.');
         header('Location: /login');
@@ -62,7 +61,24 @@ class AuthController
     public function panel(): void
     {
         Auth::requireLogin();
-        header('Location: ' . Auth::getHomeRoute());
-        exit;
+        
+        $rol = Auth::role();
+        if ($rol === 'administrador') {
+            header('Location: /usuarios');
+            exit;
+        }
+        if ($rol === 'mesero') {
+            header('Location: /mesas');
+            exit;
+        }
+        if ($rol === 'cocinero') {
+            header('Location: /cocina');
+            exit;
+        }
+
+        // Panel para cajero u otros roles base
+        View::render('panel/cajero', [
+            'titulo' => 'Panel de Control - Caja'
+        ]);
     }
 }

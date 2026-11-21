@@ -36,6 +36,7 @@ $router->get('/', function () {
 // ----------------------------------------------------------------------------
 $router->get('/login', [AuthController::class, 'mostrarLogin']);
 $router->post('/login', [AuthController::class, 'procesarLogin']);
+$router->get('/logout', [AuthController::class, 'logout']);
 $router->post('/logout', [AuthController::class, 'logout']);
 $router->get('/panel', [AuthController::class, 'panel']);
 

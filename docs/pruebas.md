@@ -78,4 +78,25 @@ Este documento registra los casos de prueba ejecutados para cada requisito funci
 
 ---
 
-*(Las pruebas para P1, P4, P6 se incorporarán en la Fase 4).*
+## Pruebas de la Fase 4 — Predicciones (P1, P4, P6)
+
+| ID Prueba | Requisito / Componente | Datos de Entrada | Resultado Esperado | Resultado Obtenido | Estado | Evidencia |
+|---|---|---|---|---|---|---|
+| **CP-P1-01** | P1: Pedidos por hora — datos suficientes | Fecha objetivo con 4 semanas del mismo DOW | Gráfico de barras con 13 franjas horarias (10–22); picos verdes en 12–14 y 19–21 | Gráfico renderizado; promedios coherentes con histórico | APROBADA | `tests/fase4_predicciones_test.php` |
+| **CP-P1-02** | P1: Advertencia datos insuficientes | Fecha con menos de 4 semanas disponibles | Alerta amarilla visible: "Solo se encontraron N semana(s)" | Alerta mostrada y gráfico con datos parciales | APROBADA | `docs/evidencias/P1_advertencia.png` |
+| **CP-P4-01** | P4: Platos más demandados — datos suficientes | Misma fecha objetivo con 4 semanas del DOW | Top 10 platos activos en gráfico horizontal + tabla con barras de progreso | Platos ordenados por promedio descendente; tabla y gráfico coherentes | APROBADA | `tests/fase4_predicciones_test.php` |
+| **CP-P4-02** | P4: Solo platos activos | Existencia de platos inactivos en la BD | Platos con `activo = false` NO aparecen en la predicción | Ningún plato inactivo en la lista | APROBADA | `tests/fase4_predicciones_test.php` |
+| **CP-P6-01** | P6: Venta proyectada del día | Fecha objetivo con histórico completo (4 sem.) | Tarjeta con `$X.XX` USD; sparkline de 7 días con línea de proyección punteada | Proyección visible; sparkline muestra datos reales vs. proyección | APROBADA | `tests/fase4_predicciones_test.php` |
+| **CP-P6-02** | P6: Acceso restringido por rol (RF-03) | Sesión con rol `mesero` o `cocinero` → GET `/predicciones` | HTTP 403 Acceso Denegado | 403 mostrado; módulo no accesible | APROBADA | `docs/evidencias/P6_acceso_403.png` |
+| **CP-DEMO-01** | Etiqueta "Datos de demostración" | Acceso a `/predicciones` con cualquier fecha | La etiqueta **📂 Datos de demostración** es visible en el encabezado y en cada sección | Badge amarillo presente en 4 ubicaciones de la página | APROBADA | `docs/evidencias/DEMO_badge.png` |
+
+---
+
+## Pruebas de la Fase 5 — Verificación General e Integridad de BD
+
+| ID Prueba | Requisito / Componente | Datos de Entrada | Resultado Esperado | Resultado Obtenido | Estado | Evidencia |
+|---|---|---|---|---|---|---|
+| **CP-F5-01** | Script de comprobación SQL integral | `tests/verificacion.sql` en PostgreSQL | Ejecución de las 30 consultas sin errores de sintaxis ni de schema | Ejecutado 100% exitoso (0 huérfanos, 0 saltos de estado) | APROBADA | `tests/verificacion.sql` |
+| **CP-F5-02** | Consistencia de totales de pedido | Comparación total cabecera vs suma de ítems | 0 discrepancias contables en todos los pedidos | 0 filas con diferencias (`ROUND(total - sum) = 0`) | APROBADA | `tests/verificacion.sql` (V-RF09-02) |
+| **CP-F5-03** | Integridad referencial y estado de facturación | Facturas emitidas vs pedidos entregados | Todas las facturas asociadas a pedidos en estado 'entregado' | 0 facturas huérfanas o con estado erróneo | APROBADA | `tests/verificacion.sql` (V-INT-03) |
+| **CP-F5-04** | Suite completa de pruebas automatizadas | Ejecución de smoke, fase 1, 2, 3 y 4 | 100% de aserciones en estado PASS | Todas las suites pasaron sin fallos | APROBADA | Terminal / Tests CLI |

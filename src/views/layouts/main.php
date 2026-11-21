@@ -87,6 +87,14 @@ $tituloPagina = $titulo ?? 'Sistema de Gestión de Restaurante';
                         </li>
                     <?php endif; ?>
 
+                    <?php if ($rol === 'cajero'): ?>
+                        <li class="nav-item">
+                            <a class="nav-link <?= str_starts_with($_SERVER['REQUEST_URI'] ?? '', '/panel') ? 'active fw-bold' : '' ?>" href="/panel">
+                                💼 Panel de Caja
+                            </a>
+                        </li>
+                    <?php endif; ?>
+
                     <li class="nav-item">
                         <a class="nav-link <?= str_starts_with($_SERVER['REQUEST_URI'] ?? '', '/salud') ? 'active fw-bold' : '' ?>" href="/salud">
                             🩺 Verificación / Salud

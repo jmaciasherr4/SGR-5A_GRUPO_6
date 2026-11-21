@@ -112,6 +112,12 @@ class Auth
             header('Location: /login');
             exit;
         }
+
+        if (!headers_sent()) {
+            header('Cache-Control: no-store, no-cache, must-revalidate, max-age=0');
+            header('Pragma: no-cache');
+            header('Expires: Sat, 01 Jan 2000 00:00:00 GMT');
+        }
     }
 
     /**
@@ -141,7 +147,7 @@ class Auth
             'administrador' => '/usuarios',
             'mesero'        => '/mesas',
             'cocinero'      => '/cocina',
-            'cajero'        => '/pedidos',
+            'cajero'        => '/panel',
             default         => '/salud'
         };
     }
@@ -150,7 +156,8 @@ class Auth
     {
         $currentRole = htmlspecialchars(self::role() ?? 'Sin rol', ENT_QUOTES, 'UTF-8');
         $allowed = htmlspecialchars(implode(', ', $allowedRoles), ENT_QUOTES, 'UTF-8');
-        $homeRoute = self::getHomeRoute();
+        $homeRoute = self::check() ? self::getHomeRoute() : '/login';
+        $csrfToken = htmlspecialchars(Csrf::getToken(), ENT_QUOTES, 'UTF-8');
 
         echo <<<HTML
 <!DOCTYPE html>
@@ -171,13 +178,13 @@ class Auth
                 <p class="text-muted mb-4">
                     Tu rol actual es <strong>{$currentRole}</strong>, pero este módulo requiere permiso de: <code>{$allowed}</code>.
                 </p>
-                <div class="d-flex justify-content-center gap-2">
-                    <a href="{$homeRoute}" class="btn btn-primary px-4 py-2">Ir a Mi Panel Principal</a>
-                    <a href="/logout" onclick="event.preventDefault(); document.getElementById('logout-form').submit();" class="btn btn-outline-secondary px-4 py-2">Cerrar Sesión</a>
+                <div class="d-flex justify-content-center gap-2 flex-wrap">
+                    <a href="{$homeRoute}" class="btn btn-primary px-4 py-2">Volver al Inicio</a>
+                    <form action="/logout" method="POST" class="d-inline m-0">
+                        <input type="hidden" name="csrf_token" id="csrf_token_forbidden_logout" value="{$csrfToken}">
+                        <button type="submit" class="btn btn-outline-secondary px-4 py-2">Cerrar Sesión</button>
+                    </form>
                 </div>
-                <form id="logout-form" action="/logout" method="POST" style="display: none;">
-                    <input type="hidden" name="csrf_token" value="" id="csrf-logout-placeholder">
-                </form>
             </div>
         </div>
     </div>
