@@ -30,7 +30,8 @@ Sigue estos comandos uno por uno desde la terminal Git Bash:
 
 ### Paso 1: Ingresar al directorio del proyecto
 ```bash
-cd "C:/Users/Usuario/.gemini/antigravity/scratch/restaurante"
+git clone https://github.com/jmaciasherr4/SGR-5A_GRUPO_6.git
+cd SGR-5A_GRUPO_6
 ```
 
 ### Paso 2: Verificar que la extensión `pdo_pgsql` esté activa en PHP
@@ -68,12 +69,20 @@ php -S localhost:8000 -t public
 ```
 
 ### Paso 8: Abrir en el navegador
-Abre la siguiente URL en tu navegador (Chrome o Edge):
+
+Aplicación:
+
+```
+http://localhost:8000
+```
+
+Verificar la conexión con la base de datos:
+
 ```
 http://localhost:8000/salud
 ```
 
----
+Inicia sesión con `admin` / `admin123`.
 
 ## 4. Usuarios de Prueba del Sistema
 
